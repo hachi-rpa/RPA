@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PAD Web操作 練習サイト</title>
+  <style>
+    :root {font-family: "Segoe UI", "Yu Gothic", Meiryo, sans-serif; color:#183153; background:#f3f6fb;}
+    * {box-sizing:border-box;}
+    body {margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;}
+    main {width:min(100%,620px); background:white; border-radius:18px; padding:36px; box-shadow:0 12px 40px rgba(25,50,90,.1);}
+    .eyebrow {font-size:12px; letter-spacing:.08em; color:#4067a5; font-weight:700; margin:0 0 8px;}
+    h1 {margin:0 0 12px; font-size:26px;}
+    .intro {color:#5a6c82; line-height:1.8; margin:0 0 30px;}
+    label {display:block; font-weight:700; margin-bottom:10px;}
+    input {width:100%; font:inherit; font-size:17px; padding:14px 16px; border:1px solid #b8c5d7; border-radius:9px; outline-offset:3px;}
+    input:focus {border-color:#2367c6; outline:2px solid #bcd6ff;}
+    .actions {display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+    button {cursor:pointer; font:inherit; font-weight:700; border-radius:9px; padding:12px 22px;}
+    #submitButton {border:1px solid #1559b5; background:#1559b5; color:white;}
+    #resetButton {border:1px solid #becbda; background:white; color:#29415e;}
+    button:focus-visible {outline:3px solid #f3ad41; outline-offset:3px;}
+    .result {margin-top:28px; border:1px solid #d3deec; border-radius:10px; background:#f7faff; padding:20px; min-height:110px;}
+    .result h2 {font-size:15px; margin:0 0 12px; color:#456080;}
+    #resultText {font-size:21px; font-weight:700; overflow-wrap:anywhere; margin:0;}
+    #statusText {font-size:13px; color:#6c7e92; margin:12px 0 0;}
+    footer {margin-top:28px; font-size:12px; color:#718197; line-height:1.7;}
+    code {background:#eaf0f8; padding:2px 5px; border-radius:4px;}
+    @media(max-width:520px){main{padding:24px;}h1{font-size:22px;}}
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">POWER AUTOMATE DESKTOP / WEB AUTOMATION</p>
+    <h1>Web操作 練習サイト</h1>
+    <p class="intro">入力欄に文字を入力して「表示する」を押してください。<br>入力内容が下の結果エリアに表示されます。</p>
+
+    <form id="practiceForm" autocomplete="off">
+      <label for="inputText">入力する文字</label>
+      <input id="inputText" name="inputText" type="text" placeholder="例：Power Automate Desktop" />
+      <div class="actions">
+        <button id="submitButton" type="submit">表示する</button>
+        <button id="resetButton" type="button">クリア</button>
+      </div>
+    </form>
+
+    <section class="result" aria-live="polite" aria-atomic="true">
+      <h2>表示結果</h2>
+      <p id="resultText">ここに結果が表示されます</p>
+      <p id="statusText">未実行</p>
+    </section>
+
+    <footer>PADで取得しやすいように、各要素には固定のIDを付けています。<br>入力欄：<code>inputText</code> ／ ボタン：<code>submitButton</code> ／ 結果：<code>resultText</code></footer>
+  </main>
+  <script>
+    const form = document.getElementById('practiceForm');
+    const input = document.getElementById('inputText');
+    const result = document.getElementById('resultText');
+    const status = document.getElementById('statusText');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const value = input.value.trim();
+      if (value === '') {
+        result.textContent = '文字が入力されていません';
+        status.textContent = '入力エラー';
+      } else {
+        result.textContent = '入力された文字：' + value;
+        status.textContent = '表示完了';
+      }
+    });
+    document.getElementById('resetButton').addEventListener('click', function () {
+      input.value = '';
+      result.textContent = 'ここに結果が表示されます';
+      status.textContent = '未実行';
+      input.focus();
+    });
+  </script>
+</body>
+</html>
